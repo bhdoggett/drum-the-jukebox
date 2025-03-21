@@ -46,8 +46,14 @@ type AudioContextType = {
     id: string,
     settings: Partial<SampleSettings>
   ) => void;
+  updateSamplerStateSettings: (
+    id: string,
+    settings: Partial<SampleSettings>
+  ) => void;
   updateSamplerRefSettings: (id: string, key: string, value: number) => void;
   setAllSampleData: React.Dispatch<React.SetStateAction<SampleType[]>>;
+  selectedSampleId: string | null;
+  setSelectedSampleId: React.Dispatch<React.SetStateAction<string | null>>;
   selectedSampleId: string | null;
   setSelectedSampleId: React.Dispatch<React.SetStateAction<string | null>>;
   // getSampler,
@@ -55,6 +61,10 @@ type AudioContextType = {
 };
 
 const AudioContextContext = createContext<AudioContextType | null>(null);
+
+const getRandomNumberForId = () => {
+  return Math.floor(Math.random() * 1000000);
+};
 
 const getRandomNumberForId = () => {
   return Math.floor(Math.random() * 1000000);
@@ -181,6 +191,7 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const getSampleData = (id: string): SampleType => {
+    console.log("Getting sample data for id:", id);
     return (
       allSampleData.find((sample) => sample.id === id) || {
         id: "",

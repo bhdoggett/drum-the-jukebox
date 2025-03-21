@@ -27,7 +27,7 @@ const DrumPad: React.FC<DrumPadProps> = ({ id, sampler }) => {
     selectedSampleId,
   } = useAudioContext();
 
-  const [sampleData, setSampleData] = useState<SampleType>(getSampleData(id));
+  const [sampleData, setSampleData] = useState<SampleType | null>(null);
   const [isSelected, setIsSelected] = useState(false);
 
   // // Initialize sampleData with selected sample's data

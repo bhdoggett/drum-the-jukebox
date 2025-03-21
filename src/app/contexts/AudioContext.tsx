@@ -66,10 +66,6 @@ const getRandomNumberForId = () => {
   return Math.floor(Math.random() * 1000000);
 };
 
-const getRandomNumberForId = () => {
-  return Math.floor(Math.random() * 1000000);
-};
-
 export const AudioProvider = ({ children }: React.PropsWithChildren) => {
   const [audioContext, setAudioContext] = useState<Tone.Context | null>(null);
   const [locSamples, setLocSamples] = useState<SampleType[] | []>([]);

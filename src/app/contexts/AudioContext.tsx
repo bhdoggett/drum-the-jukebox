@@ -65,11 +65,11 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
   const [locSamples, setLocSamples] = useState<SampleType[] | []>([]);
   const [kitSamples] = useState<SampleType[] | []>([
     {
-      id: `drum-1-${getRandomNumberForId()}`,
+      id: `kit-1-${getRandomNumberForId()}`,
       type: "drumKit",
       title: "Kick_Bulldog_2",
       label: "Kick",
-      url: "/samples/drums/kicks/Kick_Bulldog_2.wav",
+      url: "/samples/kits/kicks/Kick_Bulldog_2.wav",
       times: [],
       settings: {
         volume: 0,
@@ -83,11 +83,11 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
       },
     },
     {
-      id: `drum-2-${getRandomNumberForId()}`,
+      id: `kit-2-${getRandomNumberForId()}`,
       type: "drumKit",
       title: "Snare_Astral_1",
       label: "Snare",
-      url: "/samples/drums/snares/Snare_Astral_1.wav",
+      url: "/samples/kits/snares/Snare_Astral_1.wav",
       times: [],
       settings: {
         volume: 0,
@@ -101,11 +101,11 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
       },
     },
     {
-      id: `drum-3-${getRandomNumberForId()}`,
+      id: `kit-3-${getRandomNumberForId()}`,
       type: "drumKit",
       title: "ClosedHH_Alessya_DS",
       label: "HiHat",
-      url: "/samples/drums/hats/ClosedHH_Alessya_DS.wav",
+      url: "/samples/kits/hats/ClosedHH_Alessya_DS.wav",
       times: [],
       settings: {
         volume: 0,
@@ -119,11 +119,11 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
       },
     },
     {
-      id: `drum-4-${getRandomNumberForId()}`,
+      id: `kit-4-${getRandomNumberForId()}`,
       type: "drumKit",
       title: "Clap_Graphite",
       label: "Clap",
-      url: "/samples/drums/claps/Clap_Graphite.wav",
+      url: "/samples/kits/claps/Clap_Graphite.wav",
       times: [],
       settings: {
         volume: 0,
@@ -181,7 +181,6 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const getSampleData = (id: string): SampleType => {
-    console.log("Getting sample data for id:", id);
     return (
       allSampleData.find((sample) => sample.id === id) || {
         id: "",
@@ -204,6 +203,9 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
     );
   };
 
+  const selectedSample =
+    allSampleData.find((s) => s.id === selectedSampleId) || null;
+
   //testing things
   useEffect(() => {
     console.log("selectedSampleId:", selectedSampleId);
@@ -222,9 +224,9 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
   useEffect(() => {
     if (kitSamples.length > 0) {
       kitSamples.forEach(({ id, url }) => {
-        kitRef.current[id] = makeSampler(id, url);
+        samplersRef.current[id] = makeSampler(id, url);
       });
-      console.log("kitRef:", kitRef.current);
+      console.log("samplersRef", samplersRef.current);
     }
   }, [kitSamples]);
 
@@ -277,7 +279,7 @@ export const AudioProvider = ({ children }: React.PropsWithChildren) => {
         }
         console.log("Fetched for the curreng genre", result[genre]);
 
-        const selectedSamples = await result[genre].slice(0, 8);
+        const selectedSamples = await result[genre].slice(0, 12);
         if (selectedSamples) {
         }
 

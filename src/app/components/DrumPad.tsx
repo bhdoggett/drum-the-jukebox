@@ -27,8 +27,13 @@ const DrumPad: React.FC<DrumPadProps> = ({ id, sampler }) => {
     selectedSampleId,
   } = useAudioContext();
 
-  const [sampleData, setSampleData] = useState<SampleType | null>(null);
+  const [sampleData, setSampleData] = useState<SampleType>(getSampleData(id));
   const [isSelected, setIsSelected] = useState(false);
+
+  // // Initialize sampleData with selected sample's data
+  // useEffect(() => {
+  //   setSampleData(getSampleData(id));
+  // },[id]);
 
   // Schedule playback of sampleData
   useEffect(() => {
@@ -100,7 +105,7 @@ const DrumPad: React.FC<DrumPadProps> = ({ id, sampler }) => {
         return [...prev, sampleData];
       }
     });
-  }, [sampleData, setAllSampleData]);
+  }, [sampleData, setAllSampleData, selectedSampleId]);
 
   const handlePressPad = () => {
     sampler.triggerAttack("C4");

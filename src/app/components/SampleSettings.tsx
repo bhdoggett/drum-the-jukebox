@@ -3,13 +3,13 @@ import { useAudioContext } from "../contexts/AudioContext";
 import { useState, useEffect, use } from "react";
 import type { SampleSettings, SampleType } from "../types/SampleType";
 
-const SampleSettings = () => {
+const SampleSettings = ({ selectedSampleId }) => {
   // const audioCtx = useAudioContext();
 
   // if (!audioCtx) return null;
 
   const {
-    selectedSampleId,
+    // selectedSampleId,
     setAllSampleData,
     allSampleData,
     samplersRef,
@@ -46,6 +46,7 @@ const SampleSettings = () => {
     if (settings) {
       const samplerWithFX = samplersRef.current[selectedSampleId];
       console.log("samplerWithFX", samplerWithFX);
+      console.log("samplersRef", samplersRef.current);
       if (samplerWithFX) {
         const { sampler, panVol, highpass, lowpass } = samplerWithFX;
 
@@ -63,6 +64,13 @@ const SampleSettings = () => {
   useEffect(() => {
     if (!selectedSampleId) return;
 
+    if (
+      allSampleData.find((sample) => sample.id === selectedSampleId)
+        .settings === settings
+    ) {
+      return;
+    }
+
     const handler = setTimeout(() => {
       // Update global state
       updateSamplerStateSettings(selectedSampleId, settings);
@@ -75,14 +83,23 @@ const SampleSettings = () => {
           updateSamplerRefSettings(selectedSampleId, key, value);
         }
       });
-      console.log("settings", settings);
-      console.log("all sample data", allSampleData);
-    }, 500);
+      console.log(`volume for ${selectedSampleId}`, settings.volume);
+      console.log(
+        "volume for loc-1 from all sample data",
+        allSampleData[0].settings.volume
+      );
+    }, 50);
 
     return () => {
       clearTimeout(handler); // cancel if settings change before debounceDelay
     };
-  }, [settings, updateSamplerStateSettings, updateSamplerRefSettings]);
+  }, [
+    settings,
+    updateSamplerStateSettings,
+    updateSamplerRefSettings,
+    allSampleData,
+    selectedSampleId,
+  ]);
 
   // update settings in this component's state
   const updateCurrentSampleSettings = (key: string, value: any) => {

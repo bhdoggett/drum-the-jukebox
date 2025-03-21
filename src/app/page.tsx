@@ -4,18 +4,15 @@ import Link from "next/link";
 import GenreBar from "./components/GenreBar";
 import Transport from "./components/Transport";
 import SampleSettings from "./components/SampleSettings";
-import { useAudioContext } from "./contexts/AudioContext";
 
 export default function Home() {
-  const { selectedSampleId } = useAudioContext();
-
   return (
     <div className="flex flex-col justify-center items-center my-5">
       <h1 className="text-xl font-bold block">Citizen Sampler</h1>
       <GenreBar />
       <Transport />
       <DrumMachine />
-      <SampleSettings selectedSampleId={selectedSampleId} />
+      <SampleSettings />
       <p className="text-sm">
         Inspired by
         <Link
